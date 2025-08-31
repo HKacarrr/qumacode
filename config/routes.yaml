@@ -7,3 +7,11 @@ controllers:
 
 api_refresh_token:
     path: /api/token/refresh
+
+
+api_controller_v1:
+    resource: "routes/v1.yaml"
+    #    type: attribute
+    prefix: /api
+#    defaults:
+#        _locale: '%locale%'
