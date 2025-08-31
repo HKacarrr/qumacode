@@ -3,3 +3,7 @@
 controllers:
     resource: attributes
     type: tagged_services
+
+
+api_refresh_token:
+    path: /api/token/refresh
