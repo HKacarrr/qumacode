@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Traits;
+namespace App\Core\Traits\System;
 
 use App\Serializer\Jms\CustomJmsSerializer;
 use Psr\Container\ContainerExceptionInterface;

@@ -38,20 +38,11 @@ class LoginController extends AbstractApiController
     )]
     public function login(Request $request, JsonLoginService $jsonLoginService): JsonResponse
     {
-
         try {
-            // TODO Burası postmanden kendimiz için kullandığımız alan
             $payload = $request->toArray();
             $tokens = $jsonLoginService->login($payload["email"], $payload["password"]);
-//            $loginCheckUrl = $this->generateUrl("api_login_check",[],UrlGeneratorInterface::ABSOLUTE_URL);
-////            $loginCheckUrl = "http://php/api/login_check"; /** For docker route */
-//            $response = $httpClient->request("POST",$loginCheckUrl,[
-//                "json" => $payload
-//            ]);
-//            $tokens = $response->toArray();
 
             return new JsonResponse(["token" => $tokens]);
-
         }catch (Exception|LoginFailedException|ServerExceptionInterface|RedirectionExceptionInterface|ClientExceptionInterface $e){
 
             return new JsonResponse(["error" => $e->getMessage()], Response::HTTP_FORBIDDEN);

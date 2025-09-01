@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Core\Services\ApiResponse;
-use App\Core\Traits\CustomJmsSerializerProviderTrait;
-use App\Core\Traits\EntityManagerProviderTrait;
-use App\Core\Traits\FormFactoryInterfaceProviderTrait;
-use App\Core\Traits\RequestStackProviderTrait;
+use App\Core\Traits\System\CustomJmsSerializerProviderTrait;
+use App\Core\Traits\System\EntityManagerProviderTrait;
+use App\Core\Traits\System\FormFactoryInterfaceProviderTrait;
+use App\Core\Traits\System\RequestStackProviderTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

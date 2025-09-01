@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Core\Traits;
+namespace App\Core\Traits\System;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 trait RequestStackProviderTrait
