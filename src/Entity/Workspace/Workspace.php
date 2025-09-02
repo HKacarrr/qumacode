@@ -8,6 +8,8 @@ use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\Team\Team;
 use App\Entity\User\User;
 use App\Repository\Workspace\WorkspaceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,10 +46,18 @@ class Workspace
     #[ORM\JoinColumn(name: 'created_user_id', referencedColumnName: "id", onDelete: "SET NULL")]
     private ?User $user = null;
 
-
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'workspaces')]
     #[ORM\JoinColumn(name: 'team_id', referencedColumnName: "id", onDelete: "CASCADE")]
     private ?Team $team = null;
+
+
+    #[ORM\OneToMany(targetEntity: WorkspaceMember::class, mappedBy: 'workspace', cascade: ['persist', 'remove'])]
+    private ?Collection $workspaceMembers;
+
+    public function __construct()
+    {
+        $this->workspaceMembers = new ArrayCollection();
+    }
 
 
     public function getTitle(): ?string
@@ -154,6 +164,36 @@ class Workspace
     public function setTeam(?Team $team): static
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WorkspaceMember>
+     */
+    public function getWorkspaceMembers(): Collection
+    {
+        return $this->workspaceMembers;
+    }
+
+    public function addWorkspaceMember(WorkspaceMember $workspaceMember): static
+    {
+        if (!$this->workspaceMembers->contains($workspaceMember)) {
+            $this->workspaceMembers->add($workspaceMember);
+            $workspaceMember->setWorkspace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkspaceMember(WorkspaceMember $workspaceMember): static
+    {
+        if ($this->workspaceMembers->removeElement($workspaceMember)) {
+            // set the owning side to null (unless already changed)
+            if ($workspaceMember->getWorkspace() === $this) {
+                $workspaceMember->setWorkspace(null);
+            }
+        }
 
         return $this;
     }

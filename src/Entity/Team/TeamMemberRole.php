@@ -24,16 +24,12 @@ class TeamMemberRole
 
 
     /** Relations */
-    #[ORM\OneToMany(targetEntity: TeamInvite::class, mappedBy: 'teamMemberRole', cascade: ['persist', 'remove'])]
-    private ?Collection $teamInvites;
-
     #[ORM\OneToMany(targetEntity: TeamMember::class, mappedBy: 'teamMemberRole', cascade: ['persist', 'remove'])]
     private ?Collection $teamMembers;
 
 
     public function __construct()
     {
-        $this->teamInvites = new ArrayCollection();
         $this->teamMembers = new ArrayCollection();
     }
 
@@ -70,36 +66,6 @@ class TeamMemberRole
     public function setDegree(int $degree): static
     {
         $this->degree = $degree;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, TeamInvite>
-     */
-    public function getTeamInvites(): Collection
-    {
-        return $this->teamInvites;
-    }
-
-    public function addTeamInvite(TeamInvite $teamInvite): static
-    {
-        if (!$this->teamInvites->contains($teamInvite)) {
-            $this->teamInvites->add($teamInvite);
-            $teamInvite->setTeamMemberRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTeamInvite(TeamInvite $teamInvite): static
-    {
-        if ($this->teamInvites->removeElement($teamInvite)) {
-            // set the owning side to null (unless already changed)
-            if ($teamInvite->getTeamMemberRole() === $this) {
-                $teamInvite->setTeamMemberRole(null);
-            }
-        }
 
         return $this;
     }
