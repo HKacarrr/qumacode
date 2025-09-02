@@ -28,9 +28,15 @@ class Team
     private ?Uuid $uuid = null;
 
 
+    /** Relations */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'teams')]
     #[ORM\JoinColumn(name: 'created_user_id', referencedColumnName: "id", onDelete: "CASCADE")]
     private ?User $user = null;
+
+
+    #[ORM\ManyToOne(targetEntity: TeamMemberRole::class, inversedBy: 'teams')]
+    #[ORM\JoinColumn(name: 'team_member_role_id', referencedColumnName: "id", onDelete: "SET NULL")]
+    private ?TeamMemberRole $teamMemberRole = null;
 
 
     public function getTitle(): ?string
@@ -89,6 +95,18 @@ class Team
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTeamMemberRole(): ?TeamMemberRole
+    {
+        return $this->teamMemberRole;
+    }
+
+    public function setTeamMemberRole(?TeamMemberRole $teamMemberRole): static
+    {
+        $this->teamMemberRole = $teamMemberRole;
 
         return $this;
     }
