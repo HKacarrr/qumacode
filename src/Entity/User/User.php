@@ -7,6 +7,7 @@ use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\DeleteAtTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\Team\Team;
+use App\Entity\Team\TeamInvite;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,9 +42,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Collection $teams;
 
+    #[ORM\OneToMany(targetEntity: TeamInvite::class, mappedBy: 'invitedUser', cascade: ['persist', 'remove'])]
+    private ?Collection $teamInvites;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->teamInvites = new ArrayCollection();
     }
 
 
@@ -147,6 +152,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($team->getUser() === $this) {
                 $team->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TeamInvite>
+     */
+    public function getTeamInvites(): Collection
+    {
+        return $this->teamInvites;
+    }
+
+    public function addTeamInvite(TeamInvite $teamInvite): static
+    {
+        if (!$this->teamInvites->contains($teamInvite)) {
+            $this->teamInvites->add($teamInvite);
+            $teamInvite->setInvitedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeamInvite(TeamInvite $teamInvite): static
+    {
+        if ($this->teamInvites->removeElement($teamInvite)) {
+            // set the owning side to null (unless already changed)
+            if ($teamInvite->getInvitedUser() === $this) {
+                $teamInvite->setInvitedUser(null);
             }
         }
 

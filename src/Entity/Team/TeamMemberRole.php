@@ -27,9 +27,14 @@ class TeamMemberRole
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'teamMemberRole', cascade: ['persist', 'remove'])]
     private ?Collection $teams;
 
+    #[ORM\OneToMany(targetEntity: TeamInvite::class, mappedBy: 'teamMemberRole', cascade: ['persist', 'remove'])]
+    private ?Collection $teamInvites;
+
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->teamInvites = new ArrayCollection();
     }
 
 
@@ -93,6 +98,36 @@ class TeamMemberRole
             // set the owning side to null (unless already changed)
             if ($team->getTeamMemberRole() === $this) {
                 $team->setTeamMemberRole(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TeamInvite>
+     */
+    public function getTeamInvites(): Collection
+    {
+        return $this->teamInvites;
+    }
+
+    public function addTeamInvite(TeamInvite $teamInvite): static
+    {
+        if (!$this->teamInvites->contains($teamInvite)) {
+            $this->teamInvites->add($teamInvite);
+            $teamInvite->setTeamMemberRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeamInvite(TeamInvite $teamInvite): static
+    {
+        if ($this->teamInvites->removeElement($teamInvite)) {
+            // set the owning side to null (unless already changed)
+            if ($teamInvite->getTeamMemberRole() === $this) {
+                $teamInvite->setTeamMemberRole(null);
             }
         }
 

@@ -6,6 +6,8 @@ use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\User\User;
 use App\Repository\Team\TeamRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -37,6 +39,15 @@ class Team
     #[ORM\ManyToOne(targetEntity: TeamMemberRole::class, inversedBy: 'teams')]
     #[ORM\JoinColumn(name: 'team_member_role_id', referencedColumnName: "id", onDelete: "SET NULL")]
     private ?TeamMemberRole $teamMemberRole = null;
+
+
+    #[ORM\OneToMany(targetEntity: TeamInvite::class, mappedBy: 'team', cascade: ['persist', 'remove'])]
+    private ?Collection $teamInvites;
+
+    public function __construct()
+    {
+        $this->teamInvites = new ArrayCollection();
+    }
 
 
     public function getTitle(): ?string
@@ -107,6 +118,36 @@ class Team
     public function setTeamMemberRole(?TeamMemberRole $teamMemberRole): static
     {
         $this->teamMemberRole = $teamMemberRole;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TeamInvite>
+     */
+    public function getTeamInvites(): Collection
+    {
+        return $this->teamInvites;
+    }
+
+    public function addTeamInvite(TeamInvite $teamInvite): static
+    {
+        if (!$this->teamInvites->contains($teamInvite)) {
+            $this->teamInvites->add($teamInvite);
+            $teamInvite->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeamInvite(TeamInvite $teamInvite): static
+    {
+        if ($this->teamInvites->removeElement($teamInvite)) {
+            // set the owning side to null (unless already changed)
+            if ($teamInvite->getTeam() === $this) {
+                $teamInvite->setTeam(null);
+            }
+        }
 
         return $this;
     }
