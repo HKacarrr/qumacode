@@ -6,7 +6,9 @@ use App\Core\Services\DatabaseSchema;
 use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\DeleteAtTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
+use App\Entity\Team\Team;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -33,10 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+
 
     public function getEmail(): ?string
     {
