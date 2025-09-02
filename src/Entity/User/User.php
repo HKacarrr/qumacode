@@ -9,6 +9,7 @@ use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\Team\Team;
 use App\Entity\Team\TeamInvite;
 use App\Entity\Team\TeamMember;
+use App\Entity\Workspace\Workspace;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -49,11 +50,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: TeamMember::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Collection $teamMembers;
 
+    #[ORM\OneToMany(targetEntity: Workspace::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Collection $workspaces;
+
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
         $this->teamInvites = new ArrayCollection();
         $this->teamMembers = new ArrayCollection();
+        $this->workspaces = new ArrayCollection();
     }
 
 
@@ -217,6 +223,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($teamMember->getUser() === $this) {
                 $teamMember->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Workspace>
+     */
+    public function getWorkspaces(): Collection
+    {
+        return $this->workspaces;
+    }
+
+    public function addWorkspace(Workspace $workspace): static
+    {
+        if (!$this->workspaces->contains($workspace)) {
+            $this->workspaces->add($workspace);
+            $workspace->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkspace(Workspace $workspace): static
+    {
+        if ($this->workspaces->removeElement($workspace)) {
+            // set the owning side to null (unless already changed)
+            if ($workspace->getUser() === $this) {
+                $workspace->setUser(null);
             }
         }
 

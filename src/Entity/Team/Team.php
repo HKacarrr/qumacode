@@ -5,6 +5,7 @@ namespace App\Entity\Team;
 use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\User\User;
+use App\Entity\Workspace\Workspace;
 use App\Repository\Team\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,7 +33,7 @@ class Team
 
     /** Relations */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'teams')]
-    #[ORM\JoinColumn(name: 'created_user_id', referencedColumnName: "id", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: 'created_user_id', referencedColumnName: "id", onDelete: "SET NULL")]
     private ?User $user = null;
 
 
@@ -47,11 +48,15 @@ class Team
     #[ORM\OneToMany(targetEntity: TeamMember::class, mappedBy: 'team', cascade: ['persist', 'remove'])]
     private ?Collection $teamMembers;
 
+    #[ORM\OneToMany(targetEntity: Workspace::class, mappedBy: 'team', cascade: ['persist', 'remove'])]
+    private ?Collection $workspaces;
+
 
     public function __construct()
     {
         $this->teamInvites = new ArrayCollection();
         $this->teamMembers = new ArrayCollection();
+        $this->workspaces = new ArrayCollection();
     }
 
 
@@ -181,6 +186,36 @@ class Team
             // set the owning side to null (unless already changed)
             if ($teamMember->getTeam() === $this) {
                 $teamMember->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Workspace>
+     */
+    public function getWorkspaces(): Collection
+    {
+        return $this->workspaces;
+    }
+
+    public function addWorkspace(Workspace $workspace): static
+    {
+        if (!$this->workspaces->contains($workspace)) {
+            $this->workspaces->add($workspace);
+            $workspace->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkspace(Workspace $workspace): static
+    {
+        if ($this->workspaces->removeElement($workspace)) {
+            // set the owning side to null (unless already changed)
+            if ($workspace->getTeam() === $this) {
+                $workspace->setTeam(null);
             }
         }
 
