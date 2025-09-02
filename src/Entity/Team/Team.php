@@ -36,12 +36,6 @@ class Team
     #[ORM\JoinColumn(name: 'created_user_id', referencedColumnName: "id", onDelete: "SET NULL")]
     private ?User $user = null;
 
-
-    #[ORM\ManyToOne(targetEntity: TeamMemberRole::class, inversedBy: 'teams')]
-    #[ORM\JoinColumn(name: 'team_member_role_id', referencedColumnName: "id", onDelete: "SET NULL")]
-    private ?TeamMemberRole $teamMemberRole = null;
-
-
     #[ORM\OneToMany(targetEntity: TeamInvite::class, mappedBy: 'team', cascade: ['persist', 'remove'])]
     private ?Collection $teamInvites;
 
