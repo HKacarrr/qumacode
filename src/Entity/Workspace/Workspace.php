@@ -2,6 +2,7 @@
 
 namespace App\Entity\Workspace;
 
+use App\Core\Services\DatabaseSchema;
 use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\DeleteAtTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
@@ -14,6 +15,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkspaceRepository::class)]
+#[ORM\Table(name: '`workspaces`', schema: DatabaseSchema::WORKSPACE)]
 class Workspace
 {
     use PrimaryKeyTrait, DatetimeTrait, DeleteAtTrait;

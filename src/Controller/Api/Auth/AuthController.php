@@ -3,11 +3,14 @@
 namespace App\Controller\Api\Auth;
 
 use App\Controller\AbstractApiController;
+use App\Entity\User\User;
 use App\Exception\Auth\Login\LoginFailedException;
 use App\Form\Auth\LoginForm;
+use App\Form\Auth\RegisterForm;
 use App\Service\Auth\JsonLoginService;
 use Exception;
 use Nelmio\ApiDocBundle\Attribute\Model;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +20,9 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use OpenApi\Attributes as OA;
 
-class LoginController extends AbstractApiController
+
+#[Route('/auth')]
+class AuthController extends AbstractApiController
 {
     /**
      * Login Process
@@ -45,6 +50,27 @@ class LoginController extends AbstractApiController
             return new JsonResponse(["token" => $tokens]);
         }catch (Exception|LoginFailedException|ServerExceptionInterface|RedirectionExceptionInterface|ClientExceptionInterface $e){
 
+            return new JsonResponse(["error" => $e->getMessage()], Response::HTTP_FORBIDDEN);
+        }
+    }
+
+
+    #[Route('/register', name: 'register', methods: ['POST'])]
+    #[OA\RequestBody(
+        description: "Member register payload",
+        required: true,
+        content: new Model(type: RegisterForm::class)
+    )]
+    public function register(Request $request, FormFactoryInterface $formFactory)
+    {
+        try {
+            $payload = $request->toArray();
+            $form = $formFactory->create(RegisterForm::class);
+
+            $form->submit($payload);
+            $this->getEntityManager()->flush();
+            return new JsonResponse(["message" => "Success"], Response::HTTP_OK);
+        }catch (Exception $e){
             return new JsonResponse(["error" => $e->getMessage()], Response::HTTP_FORBIDDEN);
         }
     }

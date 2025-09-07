@@ -2,6 +2,7 @@
 
 namespace App\Entity\Team;
 
+use App\Core\Services\DatabaseSchema;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Repository\Team\TeamMemberRoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TeamMemberRoleRepository::class)]
+#[ORM\Table(name: 'team_member_roles', schema: DatabaseSchema::TEAM)]
 class TeamMemberRole
 {
     use PrimaryKeyTrait;

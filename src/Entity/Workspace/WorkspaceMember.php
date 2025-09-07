@@ -2,6 +2,7 @@
 
 namespace App\Entity\Workspace;
 
+use App\Core\Services\DatabaseSchema;
 use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\User\User;
@@ -9,6 +10,7 @@ use App\Repository\Workspace\WorkspaceMemberRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkspaceMemberRepository::class)]
+#[ORM\Table(name: '`workspace_members`', schema: DatabaseSchema::WORKSPACE)]
 class WorkspaceMember
 {
     use PrimaryKeyTrait, DatetimeTrait;

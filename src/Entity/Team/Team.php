@@ -2,6 +2,7 @@
 
 namespace App\Entity\Team;
 
+use App\Core\Services\DatabaseSchema;
 use App\Core\Traits\Entity\DatetimeTrait;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\User\User;
@@ -14,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
+#[ORM\Table(name: 'teams', schema: DatabaseSchema::TEAM)]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_UUID', fields: ['uuid'])]
 class Team
 {
     use PrimaryKeyTrait, DatetimeTrait;

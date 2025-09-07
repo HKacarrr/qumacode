@@ -10,7 +10,7 @@ use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
 use App\Entity\Workspace\Workspace;
 use App\Entity\Workspace\WorkspaceMember;
-use App\Repository\UserRepository;
+use App\Repository\User\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`', schema: DatabaseSchema::USER)]
+#[ORM\Table(name: 'users', schema: DatabaseSchema::USER)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -52,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: WorkspaceMember::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Collection $workspaceMembers;
+
+    #[ORM\OneToOne(targetEntity: Profile::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Profile $profile;
 
 
     public function __construct()
@@ -255,6 +258,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $workspaceMember->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($profile === null && $this->profile !== null) {
+            $this->profile->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($profile !== null && $profile->getUser() !== $this) {
+            $profile->setUser($this);
+        }
+
+        $this->profile = $profile;
 
         return $this;
     }

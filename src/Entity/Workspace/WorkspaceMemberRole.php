@@ -2,6 +2,7 @@
 
 namespace App\Entity\Workspace;
 
+use App\Core\Services\DatabaseSchema;
 use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Repository\Workspace\WorkspaceMemberRoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkspaceMemberRoleRepository::class)]
+#[ORM\Table(name: '`workspace_member_roles`', schema: DatabaseSchema::WORKSPACE)]
 class WorkspaceMemberRole
 {
     use PrimaryKeyTrait;

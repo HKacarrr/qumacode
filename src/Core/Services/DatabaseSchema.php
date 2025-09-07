@@ -8,6 +8,7 @@ class DatabaseSchema
     const LOCATION = "location";
 
     const WORKSPACE = "b_workspace";
+    const TEAM = "t_team";
 
     const MEMBER = "m_member";
     const CLIENT_MEMBER = "m_client";

@@ -15,22 +15,11 @@ class LoginForm extends AbstractForm
         $builder
             ->add('email', EmailType::class, [
                 'required' => true,
-//                "data" => "orhan.staff@kodpit.com",
             ]);
         $builder
             ->add('password', PasswordType::class, [
                 'required' => true,
-//                "data" => "Password1!",
             ]);
-
-//        $builder = UserPasswordType::addToBuilder($builder);
-
-//        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event){
-
-//            $event->getForm()->addError((new FormError("Passwrod hatalı")));
-//            dump("LoginType pre submit");
-//        });
-//        $builder->add("submit", SubmitType::class, []);
     }
 
 
@@ -38,8 +27,7 @@ class LoginForm extends AbstractForm
     {
         $resolver->setDefaults([
             'data_class' => null,
-            'csrf_protection' => false,
-
+            'csrf_protection' => false
         ]);
     }
 }

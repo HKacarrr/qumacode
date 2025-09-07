@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(),
-    ORM\Table(name: "profile", schema: DatabaseSchema::USER),
+    ORM\Table(name: "profiles", schema: DatabaseSchema::USER),
     ORM\HasLifecycleCallbacks
 ]
 class Profile
