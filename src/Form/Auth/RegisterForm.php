@@ -21,6 +21,9 @@ class RegisterForm extends AbstractForm
                 $user = $event->getData()["user"];
                 $profile = $event->getData()["profile"];
 
+                dump($user);
+                exit();
+
                 $profile->setUser($user);
             }
         });

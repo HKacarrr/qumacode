@@ -52,7 +52,7 @@ services:
       retries: 5
       start_period: 60s
     volumes:
-      - ./database/medicus_postgresql_${ENV}:/var/lib/postgresql/data:rw
+      - ./database/qumacode_postgresql_${ENV}:/var/lib/postgresql/data:rw
     ports:
       - target: 5432
         published: ${POSTGRES_PORT:-5434}
