@@ -59,7 +59,7 @@ class FormTypeExtension extends AbstractTypeExtension
 
                 }
             }
-        });
+        }, -10000);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 

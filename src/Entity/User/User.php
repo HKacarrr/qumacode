@@ -14,17 +14,27 @@ use App\Repository\User\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'users', schema: DatabaseSchema::USER)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[
+    ORM\Entity(repositoryClass: UserRepository::class),
+    ORM\Table(name: 'users', schema: DatabaseSchema::USER),
+    UniqueEntity(
+        fields: ['email'],
+        message: 'This mail already exists on the system'
+    ),
+    ORM\HasLifecycleCallbacks
+]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use PrimaryKeyTrait, DatetimeTrait, DeleteAtTrait;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email()]
+    #[Assert\NotBlank(message: 'E-Mail is required')]
     private ?string $email = null;
 
     /**

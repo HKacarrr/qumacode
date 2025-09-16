@@ -21,9 +21,6 @@ class RegisterForm extends AbstractForm
                 $user = $event->getData()["user"];
                 $profile = $event->getData()["profile"];
 
-                dump($user);
-                exit();
-
                 $profile->setUser($user);
             }
         });
@@ -34,8 +31,7 @@ class RegisterForm extends AbstractForm
     {
         $resolver->setDefaults([
             'data_class' => null,
-            'csrf_protection' => false,
-            "attr" => ["autocomplete" => "off", "novalidate" => "novalidate"],
+            'csrf_protection' => false
         ]);
     }
 }

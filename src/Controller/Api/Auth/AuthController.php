@@ -65,7 +65,6 @@ class AuthController extends AbstractApiController
     {
         try {
             $payload = $request->toArray();
-            dd($payload);
             $form = $formFactory->create(RegisterForm::class);
 
             $form->submit($payload);
