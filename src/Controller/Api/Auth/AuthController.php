@@ -50,7 +50,7 @@ class AuthController extends AbstractApiController
             return new JsonResponse(["token" => $tokens]);
         }catch (Exception|LoginFailedException|ServerExceptionInterface|RedirectionExceptionInterface|ClientExceptionInterface $e){
 
-            return new JsonResponse(["error" => $e->getMessage()], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(["message" => $e->getMessage()], Response::HTTP_FORBIDDEN);
         }
     }
 
