@@ -71,7 +71,7 @@ class AuthController extends AbstractApiController
             $this->getEntityManager()->flush();
             return new JsonResponse(["message" => "Success"], Response::HTTP_OK);
         }catch (Exception $e){
-            return new JsonResponse(["error" => $e->getMessage()], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(["message" => $e->getMessage()], Response::HTTP_FORBIDDEN);
         }
     }
 }

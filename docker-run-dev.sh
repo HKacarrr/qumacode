@@ -1,4 +1,4 @@
-SERVER_NAME=qumacode.localhost \
+#SERVER_NAME=qumacode.localhost \
 HTTP_PORT=80 \
 HTTPS_PORT=443 \
 POSTGRES_USER=qumacode_user \

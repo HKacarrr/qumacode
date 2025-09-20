@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     use PrimaryKeyTrait, DatetimeTrait, DeleteAtTrait;
 
     #[ORM\Column(length: 180)]
-    #[Assert\Email()]
+    #[Assert\Email(message: "Invalid email address")]
     #[Assert\NotBlank(message: 'E-Mail is required')]
     private ?string $email = null;
 
