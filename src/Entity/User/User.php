@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 #[
     ORM\Entity(repositoryClass: UserRepository::class),
@@ -47,6 +48,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+//    #[Assert\PasswordStrength(
+//        minScore: PasswordStrength::STRENGTH_MEDIUM,
+//        message: 'The password is too weak'
+//    )]
     private ?string $password = null;
 
 
