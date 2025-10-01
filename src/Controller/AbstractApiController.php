@@ -7,6 +7,7 @@ use App\Core\Traits\System\CustomJmsSerializerProviderTrait;
 use App\Core\Traits\System\EntityManagerProviderTrait;
 use App\Core\Traits\System\FormFactoryInterfaceProviderTrait;
 use App\Core\Traits\System\RequestStackProviderTrait;
+use App\Serializer\CustomSymfonySerializer;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -48,7 +49,7 @@ abstract class AbstractApiController implements ServiceSubscriberInterface
             EntityManagerInterface::class,
 //            CustomJmsSerializer::class,
 //            MessageServiceProvider::class,
-//            CustomSymfonySerializer::class,
+            CustomSymfonySerializer::class,
             RequestStack::class,
 //            ListAPIFilterService::class
         ];
@@ -235,10 +236,10 @@ abstract class AbstractApiController implements ServiceSubscriberInterface
 //    }
 //
 //
-//    public function getCustomSymfonySerializer(): CustomSymfonySerializer
-//    {
-//        return $this->container->get(CustomSymfonySerializer::class);
-//    }
+    public function getCustomSymfonySerializer(): CustomSymfonySerializer
+    {
+        return $this->container->get(CustomSymfonySerializer::class);
+    }
 
 
     /**

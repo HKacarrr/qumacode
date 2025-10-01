@@ -20,7 +20,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use SymfonyFullAuthBundle\Security\FullAuthBundleToken;
 
 //class CustomApiAuthenticator extends AbstractAuthenticator
 #[AllowDynamicProperties] class ApiAuthenticator extends JWTAuthenticator
@@ -73,7 +72,6 @@ use SymfonyFullAuthBundle\Security\FullAuthBundleToken;
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-
         $token = new AuthToken($passport->getUser(), $firewallName, $passport->getUser()->getRoles(), $passport->getAttribute('token'));
         return $token;
     }
