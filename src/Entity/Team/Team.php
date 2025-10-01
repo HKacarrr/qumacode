@@ -13,15 +13,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 #[ORM\Table(name: 'teams', schema: DatabaseSchema::TEAM)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_UUID', fields: ['uuid'])]
+#[ORM\HasLifecycleCallbacks]
 class Team
 {
     use PrimaryKeyTrait, DatetimeTrait;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Title is required")]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -31,6 +34,7 @@ class Team
     private ?string $logo = null;
 
     #[ORM\Column(type: 'uuid')]
+    #[Assert\NotBlank(message: "UUID is required")]
     private ?Uuid $uuid = null;
 
 
