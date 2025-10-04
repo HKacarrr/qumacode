@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Controller\Api\Team;
+namespace App\Controller\Api\Team\TeamMember;
 
 use App\Attributes\Swagger\Response\Organization\OrganizationResponse;
+use App\Controller\Api\Team\AbstractTeamController;
 use Nelmio\ApiDocBundle\Attribute\Security;
-use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[OA\Tag("Team"), Security(name: "BearerAuth"), Route('/team')]
-class TeamMemberController extends AbstractTeamController
+class TeamMemberController extends AbstractTeamMemberController
 {
     #[Route('', name: '_list', methods: ['GET']), OA\Get]
     public function index()
     {
+
     }
 
     #[Route('', name: '_create', methods: ['POST']), OA\Post]
