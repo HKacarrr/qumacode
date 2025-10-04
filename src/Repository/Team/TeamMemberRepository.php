@@ -2,8 +2,11 @@
 
 namespace App\Repository\Team;
 
+use App\Entity\Team\Team;
 use App\Entity\Team\TeamMember;
+use App\Entity\User\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,28 +19,22 @@ class TeamMemberRepository extends ServiceEntityRepository
         parent::__construct($registry, TeamMember::class);
     }
 
-//    /**
-//     * @return TeamMember[] Returns an array of TeamMember objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?TeamMember
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function coreQb(): QueryBuilder
+    {
+        return $this->createQueryBuilder('teamMember')
+            ->leftJoin('teamMember.team', 'team')
+            ->leftJoin('teamMember.user', 'user');
+    }
+
+
+    public function getMemberByTeamAndUser(Team $team, User $user): ?TeamMember
+    {
+        return $this->coreQb()
+            ->where('team = :team')->setParameter('team', $team)
+            ->andWhere('user = :user')->setParameter('user', $user)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+    }
 }

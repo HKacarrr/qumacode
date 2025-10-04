@@ -27,11 +27,12 @@ trait AbstractTeamControllerPrivateFunctionProviderTrait
     /**
      * @throws Exception
      */
-    private function memberCheck(User $user): Team
+    private function memberCheck(User $user): ?Team
     {
         /** @var TeamMember $organizationMemberByOrganizationAndUser */
-        $teamMemberByTeamAndUser = $this->em->getRepository(TeamMember::class)->getMemberByOrganizationAndUser($this->team, $user);
-        if (!$teamMemberByTeamAndUser){
+        $teamMemberByTeamAndUser = $this->em->getRepository(TeamMember::class)->getMemberByTeamAndUser($this->team, $user);
+        $userIsAdmin = in_array("ROLE_ADMIN", $user->getRoles(), true);
+        if (!$teamMemberByTeamAndUser and !$userIsAdmin){
             throw new Exception("User is not exist in the organization");
         }
 

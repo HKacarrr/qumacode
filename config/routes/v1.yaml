@@ -4,3 +4,11 @@ api_controller_v1_standard:
         namespace: App\Controller\Api\
     type: attribute
     prefix: /
+
+
+team_api_controller_v1:
+    resource:
+        path: ../../src/Controller/Api/Team/
+        namespace: App\Controller\Api\Team\
+    type: attribute
+    prefix: /teams/{teamId}

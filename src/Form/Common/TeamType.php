@@ -2,17 +2,17 @@
 
 namespace App\Form\Common;
 
-use App\Entity\User\User;
+use App\Entity\Team\Team;
 use App\Form\AbstractForm;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractForm
+class TeamType extends AbstractForm
 {
     public static function addToBuilder(FormBuilderInterface $builder, array $options = []): FormBuilderInterface
     {
-        $builder->add("user", null, $options);
+        $builder->add("team", null, $options);
         return $builder;
     }
 
@@ -20,7 +20,7 @@ class UserType extends AbstractForm
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => Team::class,
             "required" => false
         ]);
     }

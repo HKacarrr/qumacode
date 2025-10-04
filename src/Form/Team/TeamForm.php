@@ -3,9 +3,7 @@
 namespace App\Form\Team;
 
 use App\Entity\Team\Team;
-use App\Entity\User\User;
 use App\Form\Common\UserType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\FormBuilderInterface;

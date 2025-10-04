@@ -8,9 +8,11 @@ use App\Core\Traits\Entity\PrimaryKeyTrait;
 use App\Entity\User\User;
 use App\Repository\Team\TeamMemberRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TeamMemberRepository::class)]
 #[ORM\Table(name: 'team_members', schema: DatabaseSchema::TEAM)]
+#[ORM\HasLifecycleCallbacks]
 class TeamMember
 {
     use PrimaryKeyTrait, DatetimeTrait;
@@ -22,15 +24,18 @@ class TeamMember
     /** Relations */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'teamMembers')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: "id", onDelete: "CASCADE")]
+    #[Assert\NotBlank(message: "User must be selected")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'teamMembers')]
     #[ORM\JoinColumn(name: 'team_id', referencedColumnName: "id", onDelete: "CASCADE")]
+    #[Assert\NotBlank(message: "Team must be selected")]
     private ?Team $team = null;
 
 
     #[ORM\ManyToOne(targetEntity: TeamMemberRole::class, inversedBy: 'teamMembers')]
     #[ORM\JoinColumn(name: 'team_member_role_id', referencedColumnName: "id", onDelete: "CASCADE")]
+    #[Assert\NotBlank(message: "Team member role must be selected")]
     private ?TeamMemberRole $teamMemberRole = null;
 
 

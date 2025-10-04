@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use OpenApi\Attributes as OA;
 
-#[OA\Tag("Team"), Security(name: "BearerAuth"), Route('/team-member-roles')]
+#[OA\Tag("Team Member Roles"), Security(name: "BearerAuth"), Route('/team-member-roles')]
 class TeamMemberRoleController extends AbstractTeamController
 {
     /**

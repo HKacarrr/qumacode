@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Controller\Api\Team;
+namespace App\Controller\Api;
 
 use App\Attributes\Swagger\Response\Organization\OrganizationResponse;
+use App\Controller\Api\Team\AbstractTeamController;
 use App\Entity\Team\Team;
 use App\Form\Team\TeamForm;
 use Exception;
 use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use OpenApi\Attributes as OA;
 
 #[
     OA\Tag("Teams"),

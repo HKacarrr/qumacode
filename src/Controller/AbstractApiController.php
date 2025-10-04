@@ -282,4 +282,13 @@ abstract class AbstractApiController implements ServiceSubscriberInterface
             "orderType" => $orderType
         ];
     }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function makeFlush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
 }
