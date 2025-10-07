@@ -12,3 +12,11 @@ team_api_controller_v1:
         namespace: App\Controller\Api\Team\
     type: attribute
     prefix: /teams/{teamId}
+
+
+workspace_api_controller_v1:
+    resource:
+        path: ../../src/Controller/Api/Team/Workspace/
+        namespace: App\Controller\Api\Team\Workspace\
+    type: attribute
+    prefix: /teams/{teamId}/workspaces/{workspaceId}

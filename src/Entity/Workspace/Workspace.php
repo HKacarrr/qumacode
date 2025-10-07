@@ -13,14 +13,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WorkspaceRepository::class)]
 #[ORM\Table(name: '`workspaces`', schema: DatabaseSchema::WORKSPACE)]
+#[ORM\HasLifecycleCallbacks]
 class Workspace
 {
     use PrimaryKeyTrait, DatetimeTrait, DeleteAtTrait;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Title is required")]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -30,12 +33,14 @@ class Workspace
     private ?string $logo = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Title is required")]
+    #[Assert\Email(message: "Value is not an email")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
     #[ORM\Column]
@@ -127,7 +132,7 @@ class Workspace
         return $this->website;
     }
 
-    public function setWebsite(string $website): static
+    public function setWebsite(?string $website): static
     {
         $this->website = $website;
 
