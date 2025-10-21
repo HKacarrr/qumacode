@@ -48,6 +48,11 @@ class AbstractWorkspaceController extends AbstractTeamController
                 throw new Exception("Access denied", Response::HTTP_FORBIDDEN);
             }
         }
+
+//        $team = $this->getTeam();
+//        if ($team->getId() != $this->getWorkspace()->getTeam()->getId()){
+//            throw new Exception("Access denied", Response::HTTP_FORBIDDEN);
+//        }
     }
 
     /**

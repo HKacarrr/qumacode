@@ -18,6 +18,6 @@ create_controller:
 
 
 fl:
-	php bin/console doctrine:fixtures:load
+	php bin/console doctrine:fixtures:load --append
 
 

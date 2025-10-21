@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: '`workspace_member_roles`', schema: DatabaseSchema::WORKSPACE)]
 class WorkspaceMemberRole
 {
+    const WORKSPACE_MEMBER_ROLES = [
+        ['title' => 'Leader', 'alias' => 'leader', 'degree' => 1],
+        ['title' => 'Manager', 'alias' => 'manager', 'degree' => 2],
+        ['title' => 'Developer', 'alias' => 'developer', 'degree' => 3],
+        ['title' => 'Designer', 'alias' => 'designer', 'degree' => 3],
+        ['title' => 'Tester', 'alias' => 'tester', 'degree' => 3],
+        ['title' => 'Support', 'alias' => 'support', 'degree' => 3]
+    ];
+
     use PrimaryKeyTrait;
 
     #[ORM\Column(length: 255)]

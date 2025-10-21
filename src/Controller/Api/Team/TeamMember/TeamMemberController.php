@@ -2,8 +2,6 @@
 
 namespace App\Controller\Api\Team\TeamMember;
 
-use App\Attributes\Swagger\Response\Organization\OrganizationResponse;
-use App\Controller\Api\Team\AbstractTeamController;
 use App\Entity\Team\TeamMember;
 use App\Form\Team\TeamMemberForm;
 use Exception;

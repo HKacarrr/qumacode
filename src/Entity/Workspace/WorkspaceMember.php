@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkspaceMemberRepository::class)]
 #[ORM\Table(name: '`workspace_members`', schema: DatabaseSchema::WORKSPACE)]
+#[ORM\HasLifecycleCallbacks]
 class WorkspaceMember
 {
     use PrimaryKeyTrait, DatetimeTrait;
